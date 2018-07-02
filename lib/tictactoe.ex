@@ -1,18 +1,6 @@
-defmodule ElixirTtt do
-  @moduledoc """
-  Documentation for ElixirTtt.
-  """
+defmodule Tictactoe do
+  alias Tictactoe.Game
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> ElixirTtt.hello
-      :world
-
-  """
-  def hello do
-    :world
-  end
+  defdelegate new_game, to: Game
+  defdelegate make_move(game, mark, position), to: Game
 end
