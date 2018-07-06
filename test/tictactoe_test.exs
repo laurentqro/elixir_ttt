@@ -24,4 +24,13 @@ defmodule TictactoeTest do
 
     assert game.game_state == :won
   end
+
+  test "identifies a win in a column" do
+    game = Game.new_game()
+           |> Game.make_move(0, "X")
+           |> Game.make_move(3, "X")
+           |> Game.make_move(6, "X")
+
+    assert game.game_state == :won
+  end
 end

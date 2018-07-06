@@ -18,6 +18,8 @@ defmodule ElixirTtt.MixProject do
   end
 
   defp deps do
-    []
+    [
+      {:matrix, "~> 0.3.2"}
+    ]
   end
 end

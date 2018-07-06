@@ -21,13 +21,23 @@ defmodule Tictactoe.Game do
 
   defp detect_winning_row(game) do
     game
-    |> rows
-    |> Enum.any?(fn(row) -> has_win(row) end)
+    |> lines
+    |> Enum.any?(fn(line) -> has_win(line) end)
     |> maybe_won
   end
 
-  defp rows(game) do
+  defp lines(game) do
+    rows(game) ++ columns(game)
+  end
+
+  def rows(game) do
     Enum.chunk(game.board, 3)
+  end
+
+  def columns(game) do
+    game
+    |> rows
+    |>  Matrix.transpose
   end
 
   defp maybe_won(true), do: :won
