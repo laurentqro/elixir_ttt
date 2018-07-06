@@ -15,4 +15,13 @@ defmodule TictactoeTest do
     game = Game.new_game() |> Game.make_move(0, "X")
     assert game.board == ["X", 1, 2, 3, 4, 5, 6, 7, 8]
   end
+
+  test "identifies a win in a row" do
+    game = Game.new_game()
+           |> Game.make_move(0, "X")
+           |> Game.make_move(1, "X")
+           |> Game.make_move(2, "X")
+
+    assert game.game_state == :won
+  end
 end
