@@ -3,7 +3,7 @@ defmodule ElixirTtt.MixProject do
 
   def project do
     [
-      app: :elixir_ttt,
+      app: :tictactoe,
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
