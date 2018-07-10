@@ -67,13 +67,17 @@ defmodule Tictactoe.Game do
   end
 
   defp maybe_won(true), do: :won
-  defp maybe_won(_),    do: :still_playing
+  defp maybe_won(_),    do: :playing
 
   defp has_win([mark, mark, mark]), do: true
   defp has_win(_),                  do: false
 
-  defp switch_players(game) do
+  defp switch_players(game = %Tictactoe.Game{ game_state: :playing }) do
     Map.put(game, :current_player, next_player(game))
+  end
+
+  defp switch_players(game) do
+    game
   end
 
   defp next_player(%Tictactoe.Game{ current_player: "X" }) do

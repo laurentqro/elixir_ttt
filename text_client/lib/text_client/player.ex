@@ -1,6 +1,6 @@
 defmodule Player do
-  def play(%Tictactoe.Game{ game_state: :won }) do
-    IO.puts "You won!"
+  def play(game = %Tictactoe.Game{ game_state: :won }) do
+    IO.puts "#{game.current_player} won!"
     exit(:normal)
   end
 
