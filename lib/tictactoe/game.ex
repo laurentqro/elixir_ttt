@@ -10,13 +10,18 @@ defmodule Tictactoe.Game do
   end
 
   def make_move(game, position, mark) do
-    Map.put(game, :board, List.replace_at(game.board, position, mark))
+    game
+    |> mark_board(position, mark)
     |> evaluate_move
   end
 
- def evaluate_move(game) do
+ defp evaluate_move(game) do
     new_state = game |> detect_winning_row
     Map.put(game, :game_state, new_state)
+  end
+
+  defp mark_board(game, position, mark) do
+    Map.put(game, :board, List.replace_at(game.board, position, mark))
   end
 
   defp detect_winning_row(game) do
