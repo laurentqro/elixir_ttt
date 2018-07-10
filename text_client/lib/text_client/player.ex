@@ -13,9 +13,8 @@ defmodule Player do
     continue(game)
   end
 
-  def continue(game) do
+  defp continue(game) do
     game
-    |> IO.inspect
     |> display_board
     |> accept_move
     |> play
