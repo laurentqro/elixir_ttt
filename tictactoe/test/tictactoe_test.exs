@@ -52,6 +52,21 @@ defmodule TictactoeTest do
     assert game.game_state == :won
   end
 
+  test "identifies a tie" do
+    game = Game.new_game()
+           |> Game.make_move(1, "X")
+           |> Game.make_move(2, "X")
+           |> Game.make_move(3, "O")
+           |> Game.make_move(4, "O")
+           |> Game.make_move(5, "O")
+           |> Game.make_move(6, "X")
+           |> Game.make_move(7, "X")
+           |> Game.make_move(8, "O")
+           |> Game.make_move(9, "X")
+
+    assert game.game_state == :tie
+  end
+
   test "switches players in :playing game" do
     game = Game.new_game() |> Game.make_move(3, "X")
     assert game.current_player == "O"

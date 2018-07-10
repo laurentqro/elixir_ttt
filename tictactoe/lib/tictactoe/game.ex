@@ -17,19 +17,26 @@ defmodule Tictactoe.Game do
   end
 
   defp evaluate_move(game) do
-    new_state = game |> detect_winning_row
-    Map.put(game, :game_state, new_state)
+    game
+    |> detect_winning_line
+    |> detect_tie
   end
 
   defp mark_board(game, position, mark) do
     Map.put(game, :board, List.replace_at(game.board, position - 1, mark))
   end
 
-  defp detect_winning_row(game) do
+  defp detect_winning_line(game) do
     game.board
     |> lines
     |> Enum.any?(fn(line) -> has_win(line) end)
-    |> maybe_won
+    |> maybe_won(game)
+  end
+
+  defp detect_tie(game) do
+    game.board
+    |> Enum.all?(fn(cell) -> cell == "X" || cell == "O" end)
+    |> maybe_tie(game)
   end
 
   defp lines(board) do
@@ -65,8 +72,17 @@ defmodule Tictactoe.Game do
     |> Enum.map(fn({row, index}) -> Enum.at(row, index) end)
   end
 
-  defp maybe_won(true), do: :won
-  defp maybe_won(_),    do: :playing
+  defp maybe_won(true, game) do
+    Map.put(game, :game_state, :won)
+  end
+
+  defp maybe_won(_, game), do: game
+
+  defp maybe_tie(true) do
+    Map.put(game, :game_state, :won)
+  end
+
+  defp maybe_tie(_, game), do: game
 
   defp has_win([mark, mark, mark]), do: true
   defp has_win(_),                  do: false
