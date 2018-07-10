@@ -2,7 +2,7 @@ defmodule Tictactoe.Game do
   defstruct(
     game_state: :playing,
     current_player: "X",
-    board: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    board: [1, 2, 3, 4, 5, 6, 7, 8, 9]
   )
 
   def new_game() do
@@ -21,7 +21,7 @@ defmodule Tictactoe.Game do
   end
 
   defp mark_board(game, position, mark) do
-    Map.put(game, :board, List.replace_at(game.board, position, mark))
+    Map.put(game, :board, List.replace_at(game.board, position - 1, mark))
   end
 
   defp detect_winning_row(game) do
