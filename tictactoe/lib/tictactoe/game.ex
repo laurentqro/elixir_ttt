@@ -13,9 +13,10 @@ defmodule Tictactoe.Game do
     game
     |> mark_board(position, mark)
     |> evaluate_move
+    |> switch_players
   end
 
- defp evaluate_move(game) do
+  defp evaluate_move(game) do
     new_state = game |> detect_winning_row
     Map.put(game, :game_state, new_state)
   end
@@ -70,4 +71,16 @@ defmodule Tictactoe.Game do
 
   defp has_win([mark, mark, mark]), do: true
   defp has_win(_),                  do: false
+
+  defp switch_players(game) do
+    Map.put(game, :current_player, next_player(game))
+  end
+
+  defp next_player(%Tictactoe.Game{ current_player: "X" }) do
+    "O"
+  end
+
+  defp next_player(%Tictactoe.Game{ current_player: "O" }) do
+    "X"
+  end
 end

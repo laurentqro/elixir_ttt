@@ -51,4 +51,9 @@ defmodule TictactoeTest do
 
     assert game.game_state == :won
   end
+
+  test "switches players" do
+    game = Game.new_game() |> Game.make_move(3, "X")
+    assert game.current_player == "O"
+  end
 end
