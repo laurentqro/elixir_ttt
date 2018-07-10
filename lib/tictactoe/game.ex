@@ -20,24 +20,44 @@ defmodule Tictactoe.Game do
   end
 
   defp detect_winning_row(game) do
-    game
+    game.board
     |> lines
     |> Enum.any?(fn(line) -> has_win(line) end)
     |> maybe_won
   end
 
-  defp lines(game) do
-    rows(game) ++ columns(game)
+  defp lines(board) do
+    rows(board) ++ columns(board) ++ diagonals(board)
   end
 
-  def rows(game) do
-    Enum.chunk(game.board, 3)
+  defp rows(board) do
+    board |> Enum.chunk(3)
   end
 
-  def columns(game) do
-    game
+  defp columns(board) do
+    board
     |> rows
     |>  Matrix.transpose
+  end
+
+  defp diagonals(board) do
+    [left_diagonal(board)] ++ [right_diagonal(board)]
+  end
+
+
+  defp left_diagonal(board) do
+    board
+    |> rows
+    |> Enum.with_index
+    |> Enum.map(fn({row, index}) -> Enum.at(row, index) end)
+  end
+
+  defp right_diagonal(board) do
+    board
+    |> rows
+    |> Enum.reverse
+    |> Enum.with_index
+    |> Enum.map(fn({row, index}) -> Enum.at(row, index) end)
   end
 
   defp maybe_won(true), do: :won

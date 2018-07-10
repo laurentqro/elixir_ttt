@@ -33,4 +33,22 @@ defmodule TictactoeTest do
 
     assert game.game_state == :won
   end
+
+  test "identifies a win in primary diagonal" do
+    game = Game.new_game()
+           |> Game.make_move(0, "X")
+           |> Game.make_move(4, "X")
+           |> Game.make_move(8, "X")
+
+    assert game.game_state == :won
+  end
+
+  test "identifies a win in secondary diagonal" do
+    game = Game.new_game()
+           |> Game.make_move(2, "X")
+           |> Game.make_move(4, "X")
+           |> Game.make_move(6, "X")
+
+    assert game.game_state == :won
+  end
 end
