@@ -50,7 +50,6 @@ defmodule Tictactoe.Game do
     [left_diagonal(board)] ++ [right_diagonal(board)]
   end
 
-
   defp left_diagonal(board) do
     board
     |> rows
