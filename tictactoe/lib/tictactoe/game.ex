@@ -35,8 +35,14 @@ defmodule Tictactoe.Game do
 
   defp detect_tie(game) do
     game.board
-    |> Enum.all?(fn(cell) -> cell == "X" || cell == "O" end)
+    |> lines
+    |> Enum.all?(fn(line) -> !has_win(line) && is_full(line) end)
     |> maybe_tie(game)
+  end
+
+  defp is_full(line) do
+    line
+    |> Enum.all?(fn(cell) -> cell == "X" || cell == "O" end)
   end
 
   defp lines(board) do
@@ -78,7 +84,7 @@ defmodule Tictactoe.Game do
 
   defp maybe_won(_, game), do: game
 
-  defp maybe_tie(true) do
+  defp maybe_tie(true, game) do
     Map.put(game, :game_state, "tie")
   end
 

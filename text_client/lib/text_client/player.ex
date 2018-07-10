@@ -9,7 +9,12 @@ defmodule Player do
     exit(:normal)
   end
 
-  def play(game) do
+  def play(%Tictactoe.Game{ game_state: :tie }) do
+    IO.puts "Tie!"
+    exit(:normal)
+  end
+
+  def play(game = %Tictactoe.Game{ game_state: :playing }) do
     continue(game)
   end
 
