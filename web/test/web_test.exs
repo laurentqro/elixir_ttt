@@ -2,12 +2,10 @@ defmodule WebTest do
   use ExUnit.Case, async: true
   use Plug.Test
 
-  test "returns hello world" do
-    conn = conn(:get, "/hello")
+  test "serves a new game" do
+    conn = conn(:get, "/play")
     conn = Router.call(conn, @opts)
 
-    assert conn.state == :sent
-    assert conn.status == 200
-    assert conn.resp_body == "world"
+    assert conn.resp_body == "{\"game_state\":\"playing\",\"current_player\":\"X\",\"board\":[1,2,3,4,5,6,7,8,9]}"
   end
 end

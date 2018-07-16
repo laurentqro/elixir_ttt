@@ -20,6 +20,7 @@ defmodule ElixirTtt.MixProject do
   defp deps do
     [
       {:matrix, "~> 0.3.2"},
+      {:poison, "~> 3.1"},
     ]
   end
 end

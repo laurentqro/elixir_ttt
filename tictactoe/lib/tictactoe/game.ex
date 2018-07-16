@@ -9,6 +9,10 @@ defmodule Tictactoe.Game do
     %Tictactoe.Game{}
   end
 
+  def new_web_game do
+    new_game |> Poison.encode!
+  end
+
   def make_move(game, position, mark) do
     game
     |> mark_board(position, mark)

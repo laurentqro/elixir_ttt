@@ -20,7 +20,8 @@ defmodule Web.MixProject do
   defp deps do
     [
       {:cowboy, "~> 2.0"},
-      {:plug, "~> 1.0"}
+      {:plug, "~> 1.0"},
+      tictactoe: [ path: "../tictactoe" ]
     ]
   end
 end
