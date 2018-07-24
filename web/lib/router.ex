@@ -6,33 +6,33 @@ defmodule Router do
   plug  :dispatch
 
   get "/play" do
-    response_body = Tictactoe.Game.new_web_game()
-    send_resp(conn, 200, response_body)
+    encoded_new_game = Tictactoe.new_game()
+    |> Poison.encode!
+    |> Base.encode64
+    conn |> redirect_to("play/#{encoded_new_game}")
   end
 
-  post "/play" do
-    { :ok, req_body, conn } = Plug.Conn.read_body(conn, length: 1_000_000)
+  get "/play/:encoded_game" do
+    { :ok, game } = encoded_game |> Base.decode64
+    response_body = Map.merge(game |> Poison.decode!, %{ position: "please enter a valid move" }) |> Poison.encode!
+    conn |> send_resp(200, response_body)
+  end
 
-    decoded_body = Poison.decode!(req_body)
+  get "/play/:encoded_game_state/move/:move" do
+    { :ok, decoded_game_state } = encoded_game_state |> Base.decode64
+    { move, _rem } =  Integer.parse(move)
+    encoded_new_game_state = Tictactoe.make_move(decoded_game_state |> Poison.decode!(as: %Tictactoe.Game{}), move) |> Poison.encode! |> Base.encode64
 
-    resp_body = Tictactoe.make_move(fetch_game(decoded_body), fetch_position(decoded_body)) |> Poison.encode!
-
-    conn |> send_resp(200, resp_body)
+    conn |> redirect_to("play/#{encoded_new_game_state}")
   end
 
   match _ do
     conn |> resp(404, "Oops, something went wrong")
   end
 
-  defp fetch_game(decoded_body) do
-    %{ game_state:     decoded_body["game_state"],
-       current_player: decoded_body["current_player"],
-       board:          decoded_body["board"]
-    }
-  end
-
-  defp fetch_position(decoded_body) do
-    { position, _rem } =  Integer.parse(decoded_body["position"])
-    position
+  defp redirect_to(conn, target, message \\ "redirecting you ...") do
+    conn
+    |> put_resp_header("location", target)
+    |> resp(301, message)
   end
 end
