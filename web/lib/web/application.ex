@@ -4,12 +4,17 @@ defmodule Web.Application do
   def start(_type, _args) do
     import Supervisor.Spec
 
+    IO.puts "Running ..."
+
     children = [
-      worker(Tictactoe.Client, []),
+      Plug.Adapters.Cowboy.child_spec(:http, Web.Router, [], [port: 4000])
     ]
 
     options = [
-      name: Tictactoe.
+      name: Web.Supervisor,
+      strategy: :one_for_one,
     ]
+
+    Supervisor.start_link(children, options)
   end
 end

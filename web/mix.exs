@@ -13,13 +13,14 @@ defmodule Web.MixProject do
 
   def application do
     [
+      mod: { Web.Application, [] },
       extra_applications: [:logger]
     ]
   end
 
   defp deps do
     [
-      {:cowboy, "~> 2.0"},
+      {:cowboy, "~> 1.0"},
       {:plug, "~> 1.0"},
       {:poison, "~> 3.1"},
       tictactoe: [ path: "../tictactoe" ]
