@@ -7,7 +7,7 @@ defmodule TictactoeTest do
     game = Game.new_game()
 
     assert game.current_player == "X"
-    assert game.game_state == :playing
+    assert game.game_state == "playing"
     assert game.board == [1, 2, 3, 4, 5, 6, 7, 8, 9]
   end
 
@@ -22,7 +22,7 @@ defmodule TictactoeTest do
            |> Game.make_move(2, "X")
            |> Game.make_move(3, "X")
 
-    assert game.game_state == :won
+    assert game.game_state == "won"
   end
 
   test "identifies a win in a column" do
@@ -31,7 +31,7 @@ defmodule TictactoeTest do
            |> Game.make_move(4, "X")
            |> Game.make_move(7, "X")
 
-    assert game.game_state == :won
+    assert game.game_state == "won"
   end
 
   test "identifies a win in primary diagonal" do
@@ -40,7 +40,7 @@ defmodule TictactoeTest do
            |> Game.make_move(5, "X")
            |> Game.make_move(9, "X")
 
-    assert game.game_state == :won
+    assert game.game_state == "won"
   end
 
   test "identifies a win in secondary diagonal" do
@@ -49,7 +49,7 @@ defmodule TictactoeTest do
            |> Game.make_move(5, "X")
            |> Game.make_move(7, "X")
 
-    assert game.game_state == :won
+    assert game.game_state == "won"
   end
 
   test "identifies a tie" do
@@ -64,7 +64,7 @@ defmodule TictactoeTest do
            |> Game.make_move(8, "O")
            |> Game.make_move(9, "X")
 
-    assert game.game_state == :tie
+    assert game.game_state == "tie"
   end
 
   test "switches players in :playing game" do

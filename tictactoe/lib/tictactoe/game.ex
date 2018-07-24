@@ -1,16 +1,12 @@
 defmodule Tictactoe.Game do
   defstruct(
-    game_state: :playing,
+    game_state: "playing",
     current_player: "X",
     board: [1, 2, 3, 4, 5, 6, 7, 8, 9]
   )
 
   def new_game() do
     %Tictactoe.Game{}
-  end
-
-  def new_web_game do
-    new_game |> Poison.encode!
   end
 
   def make_move(game, position, mark) do
@@ -77,13 +73,13 @@ defmodule Tictactoe.Game do
   end
 
   defp maybe_won(true, game) do
-    Map.put(game, :game_state, :won)
+    Map.put(game, :game_state, "won")
   end
 
   defp maybe_won(_, game), do: game
 
   defp maybe_tie(true) do
-    Map.put(game, :game_state, :won)
+    Map.put(game, :game_state, "tie")
   end
 
   defp maybe_tie(_, game), do: game
@@ -91,7 +87,7 @@ defmodule Tictactoe.Game do
   defp has_win([mark, mark, mark]), do: true
   defp has_win(_),                  do: false
 
-  defp switch_players(game = %Tictactoe.Game{ game_state: :playing }) do
+  defp switch_players(game = %Tictactoe.Game{ game_state: "playing" }) do
     Map.put(game, :current_player, next_player(game))
   end
 
