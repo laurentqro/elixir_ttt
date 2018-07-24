@@ -9,7 +9,7 @@ defmodule Router do
     encoded_new_game = Tictactoe.new_game()
     |> Poison.encode!
     |> Base.encode64
-    conn |> redirect_to("play/#{encoded_new_game}")
+    conn |> redirect_to("/play/#{encoded_new_game}")
   end
 
   get "/play/:encoded_game" do
@@ -23,7 +23,7 @@ defmodule Router do
     { move, _rem } =  Integer.parse(move)
     encoded_new_game_state = Tictactoe.make_move(decoded_game_state |> Poison.decode!(as: %Tictactoe.Game{}), move) |> Poison.encode! |> Base.encode64
 
-    conn |> redirect_to("play/#{encoded_new_game_state}")
+    conn |> redirect_to("/play/#{encoded_new_game_state}")
   end
 
   match _ do
