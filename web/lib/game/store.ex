@@ -15,4 +15,8 @@ defmodule Web.Game.Store do
   defp game_path(name) do
     @path <> name |> Path.expand(__DIR__)
   end
+
+  def create_storage_folder do
+    File.mkdir @path
+  end
 end
