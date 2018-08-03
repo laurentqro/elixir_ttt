@@ -6,26 +6,22 @@ defmodule Web.Router do
   plug  :dispatch
 
   get "/play" do
-    encoded_new_game = Tictactoe.new_game()
-                       |> Poison.encode!
-                       |> Base.encode64
-
-    conn |> redirect_to("/play/#{encoded_new_game}")
+    uuid = UUID.uuid1
+    Web.Game.Supervisor.start_game(uuid)
+    Web.Game.Server.save_game(uuid)
+    conn |> redirect_to("/play/#{uuid}")
   end
 
-  get "/play/:encoded_game" do
-    conn |> send_resp(200, encoded_game |> parse_encoded_game)
+  get "/play/:uuid" do
+    Web.Game.Supervisor.start_game(uuid)
+    response_body = Web.Game.Server.get_game(uuid) |> Poison.encode!
+    conn |> send_resp(200, response_body)
   end
 
-  get "/play/:encoded_game_state/move/:move" do
-    encoded_new_game_state = encoded_game_state
-                             |> parse_encoded_game
-                             |> Poison.decode!(as: %Tictactoe.Game{})
-                             |> Tictactoe.make_move(move |> parse_move)
-                             |> Poison.encode!
-                             |> Base.encode64
-
-    conn |> redirect_to("/play/#{encoded_new_game_state}")
+  get "/play/:uuid/move/:move" do
+    Web.Game.Server.make_move(uuid, move |> parse_move)
+    response_body = Web.Game.Server.get_game(uuid) |> Poison.encode!
+    conn |> send_resp(200, response_body)
   end
 
   match _ do
@@ -36,11 +32,6 @@ defmodule Web.Router do
     conn
     |> put_resp_header("location", target)
     |> resp(301, message)
-  end
-
-  defp parse_encoded_game(encoded_game) do
-    { :ok, decoded_game } = encoded_game |> Base.decode64
-    decoded_game
   end
 
   defp parse_move(move) do

@@ -24,6 +24,7 @@ defmodule Web.MixProject do
       {:cowboy, "~> 2.0"},
       {:plug, "~> 1.0"},
       {:poison, "~> 3.1"},
+      { :uuid, "~> 1.1" },
       tictactoe: [ path: "../tictactoe" ]
     ]
   end

@@ -14,5 +14,8 @@ defmodule Web.Application do
     ]
 
     Supervisor.start_link(children, options)
+
+    Web.Game.Supervisor.start_link
+    Web.Game.Registry.start_link
   end
 end
