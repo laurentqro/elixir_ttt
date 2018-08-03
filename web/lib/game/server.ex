@@ -7,8 +7,8 @@ defmodule Web.Game.Server do
     GenServer.start_link(__MODULE__, [], name: via_tuple(name))
   end
 
-  def new_game(name) do
-    GenServer.cast(via_tuple(name), {:new_game, name})
+  def save_game(name) do
+    GenServer.cast(via_tuple(name), {:save_game, name})
   end
 
   def get_game(name) do
@@ -29,7 +29,7 @@ defmodule Web.Game.Server do
     {:ok, state}
   end
 
-  def handle_cast({:new_game, name}, _game) do
+  def handle_cast({:save_game, name}, _game) do
     game = Web.Game.Store.save_game(Tictactoe.new_game, name)
     {:noreply, game}
   end
