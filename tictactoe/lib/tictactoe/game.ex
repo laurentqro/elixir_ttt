@@ -1,12 +1,29 @@
 defmodule Tictactoe.Game do
+  alias Tictactoe.Game
+
   defstruct(
     game_state: "playing",
-    current_player: "X",
-    board: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    current_player: nil,
+    board: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    player_x: nil,
+    player_o: nil
   )
 
-  def new_game() do
-    %Tictactoe.Game{}
+  def new_game do
+    %Game{} |> setup_players(:human_vs_human)
+  end
+
+  def new_game(mode) do
+    %Game{} |> setup_players(mode)
+  end
+
+  def make_move(game, player = %Player.Computer{}) do
+    position = Player.Computer.pick_move(game)
+    game |> mark_board(position, player.mark)
+  end
+
+  def make_move(game, position, player = %Player.Human{}) do
+    game |> mark_board(position, player.mark)
   end
 
   def make_move(game, position, mark) do
@@ -93,19 +110,26 @@ defmodule Tictactoe.Game do
   defp has_win([mark, mark, mark]), do: true
   defp has_win(_),                  do: false
 
-  defp switch_players(game = %Tictactoe.Game{ game_state: "playing" }) do
-    Map.put(game, :current_player, next_player(game))
+  defp switch_players(game = %Game{ game_state: "playing" }) do
+    %{ game | current_player: next_player(game) }
   end
 
   defp switch_players(game) do
     game
   end
 
-  defp next_player(%Tictactoe.Game{ current_player: "X" }) do
-    "O"
+  defp next_player(game) do
+    case game.current_player do
+      %Player.Human{mark: "X"} -> %Player.Human{mark: "O"}
+      %Player.Human{mark: "O"} -> %Player.Human{mark: "X"}
+    end
   end
 
-  defp next_player(%Tictactoe.Game{ current_player: "O" }) do
-    "X"
+  defp setup_players(game, :human_vs_human) do
+    %{ game |
+      player_x: %Player.Human{ mark: "X"},
+      player_o: %Player.Human{ mark: "O"},
+      current_player: %Player.Human{ mark: "X" }
+    }
   end
 end
