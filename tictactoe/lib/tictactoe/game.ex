@@ -34,6 +34,11 @@ defmodule Tictactoe.Game do
     end
   end
 
+  def available_moves(game) do
+    game.board
+    |> Enum.filter(fn(cell) -> cell != "X" || cell != "O" end)
+  end
+
   defp evaluate_move(game) do
     game
     |> detect_winning_line
