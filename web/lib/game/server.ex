@@ -30,7 +30,7 @@ defmodule Web.Game.Server do
   end
 
   def handle_cast({:save_game, name}, _game) do
-    game = Web.Game.Store.save_game(Tictactoe.new_game, name)
+    game = Web.Game.Store.save_game(Tictactoe.new_game(:human_vs_computer), name)
     {:noreply, game}
   end
 

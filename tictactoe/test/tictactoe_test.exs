@@ -4,13 +4,23 @@ defmodule TictactoeTest do
   alias Tictactoe.Game
 
   test "new game returns structure" do
-    game = Game.new_game(:human_vs_human)
+    game = Game.new_game
 
     assert game.game_state == "playing"
     assert game.current_player == %Player.Human{mark: "X"}
     assert game.board == [1, 2, 3, 4, 5, 6, 7, 8, 9]
     assert game.player_x == %Player.Human{mark: "X"}
     assert game.player_o == %Player.Human{mark: "O"}
+  end
+
+  test "new human vs. computer game" do
+    game = Game.new_game(:human_vs_computer)
+
+    assert game.game_state == "playing"
+    assert game.current_player == %Player.Human{}
+    assert game.board == [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    assert game.player_x == %Player.Human{}
+    assert game.player_o == %Player.Computer{}
   end
 
   test "mark the board" do

@@ -1,3 +1,3 @@
 defmodule Player.Human do
-  defstruct(mark: "X")
+  defstruct(mark: "X", type: "human")
 end

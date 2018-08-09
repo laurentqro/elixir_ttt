@@ -17,20 +17,21 @@ defmodule Tictactoe.Game do
     %Game{} |> setup_players(mode)
   end
 
-  def make_move(game, player = %Player.Computer{}) do
-    position = Player.Computer.pick_move(game)
-    game |> mark_board(position, player.mark)
-  end
-
-  def make_move(game, position, player = %Player.Human{}) do
-    game |> mark_board(position, player.mark)
-  end
-
   def make_move(game, position, mark) do
     game
     |> mark_board(position, mark)
     |> evaluate_move
     |> switch_players
+    |> continue
+  end
+
+  def continue(game = %Game{ current_player: player }) do
+    case player["type"] do
+      "human" ->
+        game
+      "computer" ->
+        game |> make_move(Player.Computer.pick_move(game), player["mark"])
+    end
   end
 
   defp evaluate_move(game) do
@@ -40,7 +41,7 @@ defmodule Tictactoe.Game do
   end
 
   defp mark_board(game, position, mark) do
-    Map.put(game, :board, List.replace_at(game.board, position - 1, mark))
+    %{ game | board: List.replace_at(game.board, position - 1, mark) }
   end
 
   defp detect_winning_line(game) do
@@ -120,8 +121,8 @@ defmodule Tictactoe.Game do
 
   defp next_player(game) do
     case game.current_player do
-      %Player.Human{mark: "X"} -> %Player.Human{mark: "O"}
-      %Player.Human{mark: "O"} -> %Player.Human{mark: "X"}
+      %{"mark" => "X"} -> game.player_o
+      %{"mark" => "O"} -> game.player_x
     end
   end
 
@@ -130,6 +131,14 @@ defmodule Tictactoe.Game do
       player_x: %Player.Human{ mark: "X"},
       player_o: %Player.Human{ mark: "O"},
       current_player: %Player.Human{ mark: "X" }
+    }
+  end
+
+  defp setup_players(game, :human_vs_computer) do
+    %{ game |
+      player_x: %Player.Human{},
+      player_o: %Player.Computer{},
+      current_player: %Player.Human{}
     }
   end
 end
