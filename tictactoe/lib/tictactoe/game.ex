@@ -17,6 +17,10 @@ defmodule Tictactoe.Game do
     %Game{} |> setup_players(mode)
   end
 
+  def set_up_players(game, players) do
+    Map.put(game, :players, players)
+  end
+
   def make_move(game, position, mark) do
     game
     |> mark_board(position, mark)

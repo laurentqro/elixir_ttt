@@ -40,7 +40,7 @@ defmodule Player do
   end
 
   defp check_input(input, game) do
-    { input, _ } = input |> String.trim |> Integer.parse
+    input = input |> String.trim |> String.to_integer
     cond do
       Enum.member?(game.board, input) ->
         make_move(game, input)
