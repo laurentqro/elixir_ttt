@@ -19,7 +19,7 @@ defmodule Web.Router do
   end
 
   get "/play/:uuid/move/:move" do
-    Web.Game.Server.make_move(uuid, move |> parse_move)
+    Web.Game.Server.make_move(uuid, move |> String.to_integer)
     response_body = Web.Game.Server.get_game(uuid) |> Poison.encode!
     conn |> send_resp(200, response_body)
   end
@@ -32,10 +32,5 @@ defmodule Web.Router do
     conn
     |> put_resp_header("location", target)
     |> resp(301, message)
-  end
-
-  defp parse_move(move) do
-    { move, _rem } =  move |> Integer.parse
-    move
   end
 end
