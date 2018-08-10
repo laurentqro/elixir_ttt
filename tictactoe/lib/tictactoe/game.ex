@@ -31,10 +31,8 @@ defmodule Tictactoe.Game do
 
   def continue(game = %Game{ current_player: player }) do
     case player["type"] do
-      "human" ->
-        game
-      "computer" ->
-        game |> make_move(Player.Computer.pick_move(game), player["mark"])
+      "human"     -> game
+      "computer"  -> game |> make_move(Player.Computer.pick_move(game), player["mark"])
     end
   end
 
