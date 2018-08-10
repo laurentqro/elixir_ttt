@@ -1,6 +1,9 @@
 defmodule Tictactoe.Game do
   alias Tictactoe.Game
 
+  @cross  Tictactoe.Mark.cross
+  @naught Tictactoe.Mark.naught
+
   defstruct(
     game_state: "playing",
     current_player: nil,
@@ -38,7 +41,7 @@ defmodule Tictactoe.Game do
 
   def available_moves(game) do
     game.board
-    |> Enum.filter(fn(cell) -> cell != "X" || cell != "O" end)
+    |> Enum.filter(fn(cell) -> cell != @cross || cell != @naught end)
   end
 
   defp evaluate_move(game) do
@@ -67,7 +70,7 @@ defmodule Tictactoe.Game do
 
   defp is_full(line) do
     line
-    |> Enum.all?(fn(cell) -> cell == "X" || cell == "O" end)
+    |> Enum.all?(fn(cell) -> cell == @cross || cell == @naught end)
   end
 
   defp lines(board) do
@@ -128,16 +131,16 @@ defmodule Tictactoe.Game do
 
   defp next_player(game) do
     case game.current_player do
-      %{"mark" => "X"} -> game.player_o
-      %{"mark" => "O"} -> game.player_x
+      %{ "mark" => @cross } -> game.player_o
+      %{ "mark" => @naught } -> game.player_x
     end
   end
 
   defp setup_players(game, :human_vs_human) do
     %{ game |
-      player_x: %Player.Human{ mark: "X"},
-      player_o: %Player.Human{ mark: "O"},
-      current_player: %Player.Human{ mark: "X" }
+      player_x: %Player.Human{ mark: @cross },
+      player_o: %Player.Human{ mark: @naught},
+      current_player: %Player.Human{ mark: @cross }
     }
   end
 
