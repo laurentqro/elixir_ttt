@@ -42,13 +42,13 @@ defmodule Tictactoe.Game do
     |> Enum.filter(fn(cell) -> cell != @cross && cell != @naught end)
   end
 
-  defp evaluate_move(game) do
+  def evaluate_move(game) do
     game
     |> detect_winning_line
     |> detect_tie
   end
 
-  defp mark_board(game, position, mark) do
+  def mark_board(game, position, mark) do
     %{ game | board: List.replace_at(game.board, position - 1, mark) }
   end
 
@@ -119,11 +119,11 @@ defmodule Tictactoe.Game do
   defp has_win([mark, mark, mark]), do: true
   defp has_win(_),                  do: false
 
-  defp switch_players(game = %Game{ game_state: "playing" }) do
+  def switch_players(game = %Game{ game_state: "playing" }) do
     %{ game | current_player: next_player(game) }
   end
 
-  defp switch_players(game) do
+  def switch_players(game) do
     game
   end
 
