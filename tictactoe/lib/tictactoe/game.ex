@@ -20,10 +20,6 @@ defmodule Tictactoe.Game do
     %Game{} |> setup_players(mode)
   end
 
-  def set_up_players(game, players) do
-    Map.put(game, :players, players)
-  end
-
   def make_move(game, position, mark) do
     game
     |> mark_board(position, mark)
@@ -32,25 +28,27 @@ defmodule Tictactoe.Game do
     |> continue
   end
 
-  def continue(game = %Game{ current_player: player }) do
-    case player["type"] do
+  def continue(game = %Game{ game_state: "playing", current_player: player }) do
+    case player.type do
       "human"     -> game
-      "computer"  -> game |> make_move(Player.Computer.pick_move(game), player["mark"])
+      "computer"  -> game |> make_move(Player.Computer.pick_move(game), player.mark)
     end
   end
 
+  def continue(game), do: game
+
   def available_moves(game) do
     game.board
-    |> Enum.filter(fn(cell) -> cell != @cross || cell != @naught end)
+    |> Enum.filter(fn(cell) -> cell != @cross && cell != @naught end)
   end
 
-  defp evaluate_move(game) do
+  def evaluate_move(game) do
     game
     |> detect_winning_line
     |> detect_tie
   end
 
-  defp mark_board(game, position, mark) do
+  def mark_board(game, position, mark) do
     %{ game | board: List.replace_at(game.board, position - 1, mark) }
   end
 
@@ -121,18 +119,18 @@ defmodule Tictactoe.Game do
   defp has_win([mark, mark, mark]), do: true
   defp has_win(_),                  do: false
 
-  defp switch_players(game = %Game{ game_state: "playing" }) do
+  def switch_players(game = %Game{ game_state: "playing" }) do
     %{ game | current_player: next_player(game) }
   end
 
-  defp switch_players(game) do
+  def switch_players(game) do
     game
   end
 
   defp next_player(game) do
     case game.current_player do
-      %{ "mark" => @cross } -> game.player_o
-      %{ "mark" => @naught } -> game.player_x
+      %{ mark:  @cross } -> game.player_o
+      %{ mark:  @naught } -> game.player_x
     end
   end
 
