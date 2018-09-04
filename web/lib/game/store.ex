@@ -3,7 +3,7 @@ defmodule Web.Game.Store do
 
   def get_game(name) do
     {:ok, game} = File.read(game_path(name))
-    game |> Poison.decode!(as: %Tictactoe.Game{})
+    game |> Poison.Parser.parse!(%{keys: :atoms!})
   end
 
   def save_game(game, name) do
