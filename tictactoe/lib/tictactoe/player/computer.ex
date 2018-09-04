@@ -25,10 +25,12 @@ defmodule Player.Computer do
     %{ move: move, score: new_game_state |> minimax }
   end
 
-  defp minimax(%Game{ game_state: "won", current_player: current_player }) do
+  defp minimax(game = %Game{ game_state: "won", current_player: current_player }) do
+    available_moves_count = game |> Game.available_moves |> Enum.count
+
     case current_player.mark do
       "X" -> -1
-      "O" -> 1
+      "O" -> 1 * available_moves_count
     end
   end
 
