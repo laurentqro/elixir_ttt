@@ -48,8 +48,12 @@ defmodule Tictactoe.Game do
     |> detect_tie
   end
 
-  def mark_board(game, position, mark) do
+  def mark_board(game = %{ game_state: "playing" }, position, mark) do
     %{ game | board: List.replace_at(game.board, position - 1, mark) }
+  end
+
+  def mark_board(game, _position, _mark) do
+    game
   end
 
   defp detect_winning_line(game) do
