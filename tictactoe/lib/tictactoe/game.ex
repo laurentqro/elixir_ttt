@@ -129,7 +129,7 @@ defmodule Tictactoe.Game do
 
   defp next_player(game) do
     case game.current_player do
-      %{ mark: @cross } -> game.player_o
+      %{ mark: @cross  } -> game.player_o
       %{ mark: @naught } -> game.player_x
     end
   end
