@@ -25,14 +25,14 @@ defmodule Player.Computer do
     %{ move: move, score: new_game_state |> minimax }
   end
 
-  defp minimax(game = %Game{ game_state: "won", current_player: current_player }) do
+  defp minimax(game = %{ game_state: "won", current_player: current_player }) do
     case current_player.mark do
       "X" -> -1
       "O" ->  1 * available_moves_count(game)
     end
   end
 
-  defp minimax(%Game{ game_state: "tie" }), do: 0
+  defp minimax(%{ game_state: "tie" }), do: 0
 
   defp minimax(game) do
     case game.current_player.mark do

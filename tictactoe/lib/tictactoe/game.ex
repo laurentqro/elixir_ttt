@@ -28,7 +28,7 @@ defmodule Tictactoe.Game do
     |> continue
   end
 
-  def continue(game = %Game{ game_state: "playing", current_player: player }) do
+  def continue(game = %{ game_state: "playing", current_player: player }) do
     case player.type do
       "human"     -> game
       "computer"  -> game |> make_move(Player.Computer.pick_move(game), player.mark)
@@ -119,7 +119,7 @@ defmodule Tictactoe.Game do
   defp has_win([mark, mark, mark]), do: true
   defp has_win(_),                  do: false
 
-  def switch_players(game = %Game{ game_state: "playing" }) do
+  def switch_players(game = %{ game_state: "playing" }) do
     %{ game | current_player: next_player(game) }
   end
 
