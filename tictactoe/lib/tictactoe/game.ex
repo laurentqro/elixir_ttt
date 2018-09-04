@@ -41,7 +41,7 @@ defmodule Tictactoe.Game do
 
   def available_moves(game) do
     game.board
-    |> Enum.filter(fn(cell) -> cell != @cross || cell != @naught end)
+    |> Enum.filter(fn(cell) -> cell != @cross && cell != @naught end)
   end
 
   defp evaluate_move(game) do
