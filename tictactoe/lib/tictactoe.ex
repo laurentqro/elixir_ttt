@@ -8,6 +8,6 @@ defmodule Tictactoe do
   end
 
   def make_move(game, position) do
-    Game.make_move(game, position, game.current_player["mark"])
+    Game.make_move(game, position, game.current_player.mark)
   end
 end
