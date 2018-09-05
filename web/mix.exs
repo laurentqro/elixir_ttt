@@ -21,10 +21,11 @@ defmodule Web.MixProject do
 
   defp deps do
     [
-      {:cowboy, "~> 2.0"},
-      {:plug, "~> 1.0"},
-      {:poison, "~> 3.1"},
-      { :uuid, "~> 1.1" },
+      { :cowboy,    "~> 2.0" },
+      { :plug,      "~> 1.0" },
+      { :poison,    "~> 3.1" },
+      { :uuid,      "~> 1.1" },
+      { :cors_plug, "~> 1.5" },
       tictactoe: [ path: "../tictactoe" ]
     ]
   end
