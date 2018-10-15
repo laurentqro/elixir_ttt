@@ -7,7 +7,7 @@ defmodule Tictactoe.Game do
   defstruct(
     game_state: "playing",
     current_player: nil,
-    board: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    board: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
     player_x: nil,
     player_o: nil
   )
@@ -49,7 +49,7 @@ defmodule Tictactoe.Game do
   end
 
   def mark_board(game = %{ game_state: "playing" }, position, mark) do
-    %{ game | board: List.replace_at(game.board, position - 1, mark) }
+    %{ game | board: List.replace_at(game.board, String.to_integer(position) - 1, mark) }
   end
 
   def mark_board(game, _position, _mark) do
