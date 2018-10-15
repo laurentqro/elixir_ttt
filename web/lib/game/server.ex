@@ -16,7 +16,7 @@ defmodule Web.Game.Server do
   end
 
   def make_move(name, move) do
-    GenServer.cast(via_tuple(name), {:make_move, name, move})
+    GenServer.cast(via_tuple(name), {:make_move, name, Integer.to_string(move)})
   end
 
   defp via_tuple(name) do
